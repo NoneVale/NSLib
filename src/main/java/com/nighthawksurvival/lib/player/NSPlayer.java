@@ -27,6 +27,7 @@ public class NSPlayer {
     private int tokens;
     private boolean banned;
     private String displayName;
+    private String banReason;
 
     private void buildNSPlayer(String name) {
         this.offlinePlayer = Bukkit.getOfflinePlayer(name);
@@ -41,6 +42,7 @@ public class NSPlayer {
         this.balance = getPlayers().getInt(getID() + ".balance");
         this.tokens = getPlayers().getInt(getID() + ".tokens");
         this.displayName = getPlayers().getString(getID() + ".displayName");
+        this.banReason = getPlayers().getString(getID() + ".ban.reason");
     }
 
     private void buildNSPlayer(UUID uuid) {
@@ -56,6 +58,7 @@ public class NSPlayer {
         this.balance = getPlayers().getInt(getID() + ".balance");
         this.tokens = getPlayers().getInt(getID() + ".tokens");
         this.displayName = getPlayers().getString(getID() + ".displayName");
+        this.banReason = getPlayers().getString(getID() + ".ban.reason");
     }
 
     private void buildNSPlayer(Player player) {
@@ -71,6 +74,7 @@ public class NSPlayer {
         this.balance = getPlayers().getInt(getID() + ".balance");
         this.tokens = getPlayers().getInt(getID() + ".tokens");
         this.displayName = getPlayers().getString(getID() + ".displayName");
+        this.banReason = getPlayers().getString(getID() + ".ban.reason");
     }
 
     public NSPlayer(Player player) {
@@ -145,6 +149,10 @@ public class NSPlayer {
 
     public boolean existsInDatabase() {
         return getIDFile().isSet(getUUIDasString());
+    }
+
+    public String getBanReason() {
+        return banReason;
     }
 
 
