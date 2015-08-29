@@ -8,6 +8,7 @@ import org.bukkit.inventory.ItemStack;
  */
 public interface Kit extends Default {
 
+
     String getName();
 
     Material getDisplayItem();

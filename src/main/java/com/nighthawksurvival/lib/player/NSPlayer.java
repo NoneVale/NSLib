@@ -94,6 +94,7 @@ public class NSPlayer {
     }
 
 
+
     //GETTERS
     public String getName() {
         return name;
