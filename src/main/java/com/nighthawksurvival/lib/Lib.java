@@ -1,14 +1,18 @@
 package com.nighthawksurvival.lib;
 
+import com.nighthawksurvival.lib.libraries.Guild;
+import com.nighthawksurvival.lib.player.NSPlayer;
 import com.nighthawksurvival.lib.plugins.Plugins;
 import com.nighthawksurvival.lib.settings.GameSettings;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
+import java.util.UUID;
 
 /**
  * NoneVale
@@ -144,4 +148,22 @@ public class Lib extends JavaPlugin {
         return gc;
     }
 
+    public static NSPlayer getNSPlayer(Player player) {
+        return new NSPlayer(player);
+    }
+
+    public static NSPlayer getNSPlayer(String name) {
+        return new NSPlayer(name);
+    }
+
+    public static NSPlayer getNSPLayer(UUID uuid) {
+        return new NSPlayer(uuid);
+    }
+
+    public static Guild getGuild(NSPlayer player) {
+        if (player.hasGuild()) {
+            return new Guild(player.getGuild());
+        }
+        return null;
+    }
 }

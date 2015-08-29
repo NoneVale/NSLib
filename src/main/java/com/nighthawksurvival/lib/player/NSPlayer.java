@@ -28,6 +28,7 @@ public class NSPlayer {
     private boolean banned;
     private String displayName;
     private String banReason;
+    private String guild;
 
     private void buildNSPlayer(String name) {
         this.offlinePlayer = Bukkit.getOfflinePlayer(name);
@@ -43,6 +44,7 @@ public class NSPlayer {
         this.tokens = getPlayers().getInt(getID() + ".tokens");
         this.displayName = getPlayers().getString(getID() + ".displayName");
         this.banReason = getPlayers().getString(getID() + ".ban.reason");
+        this.guild = getPlayers().getString(getID() + ".guilds.guild");
     }
 
     private void buildNSPlayer(UUID uuid) {
@@ -59,6 +61,7 @@ public class NSPlayer {
         this.tokens = getPlayers().getInt(getID() + ".tokens");
         this.displayName = getPlayers().getString(getID() + ".displayName");
         this.banReason = getPlayers().getString(getID() + ".ban.reason");
+        this.guild = getPlayers().getString(getID() + ".guilds.guild");
     }
 
     private void buildNSPlayer(Player player) {
@@ -75,6 +78,7 @@ public class NSPlayer {
         this.tokens = getPlayers().getInt(getID() + ".tokens");
         this.displayName = getPlayers().getString(getID() + ".displayName");
         this.banReason = getPlayers().getString(getID() + ".ban.reason");
+        this.guild = getPlayers().getString(getID() + ".guilds.guild");
     }
 
     public NSPlayer(Player player) {
@@ -155,6 +159,10 @@ public class NSPlayer {
         return banReason;
     }
 
+    public boolean hasGuild() {
+        return getPlayers().isSet(getID() + ".guilds.guild");
+    }
+
 
     //METHODS
     public void assignID() {
@@ -214,6 +222,10 @@ public class NSPlayer {
     public void setDisplayName(String displayName) {
         getPlayers().set(getID() + ".displayName", displayName);
         savePlayers();
+    }
+
+    public String getGuild() {
+        return guild;
     }
 
     //CONFIGS
