@@ -3,12 +3,17 @@ package com.nighthawksurvival.lib.player;
 import com.nighthawksurvival.lib.Lib;
 import com.nighthawksurvival.lib.id.IDType;
 import com.nighthawksurvival.lib.id.NSID;
+import com.nighthawksurvival.lib.util.Locations;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.World;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
 import java.lang.String;import java.util.UUID;
+
+import static com.nighthawksurvival.lib.util.Locations.getCenterOfBlock;
 
 /**
  * Created by NoneVale on 8/27/2015.
@@ -29,12 +34,13 @@ public class NSPlayer {
     private String displayName;
     private String banReason;
     private String guild;
+    private Location home;
 
     private void buildNSPlayer(String name) {
         this.offlinePlayer = Bukkit.getOfflinePlayer(name);
         this.name = offlinePlayer.getName();
         this.uuid = offlinePlayer.getUniqueId();
-        this.id = getIDFile().getString(getUUIDasString());
+        this.id = getIDFile().getString("players." + getUUIDasString());
         this.beta = getPlayers().getBoolean(getID() + ".beta");
         this.staff = getPlayers().getBoolean(getID() + ".staff");
         this.trusted = getPlayers().getBoolean(getID() + ".trusted");
@@ -51,7 +57,7 @@ public class NSPlayer {
         this.offlinePlayer = Bukkit.getOfflinePlayer(name);
         this.name = offlinePlayer.getName();
         this.uuid = offlinePlayer.getUniqueId();
-        this.id = getIDFile().getString(getUUIDasString());
+        this.id = getIDFile().getString("players." + getUUIDasString());
         this.beta = getPlayers().getBoolean(getID() + ".beta");
         this.staff = getPlayers().getBoolean(getID() + ".staff");
         this.trusted = getPlayers().getBoolean(getID() + ".trusted");
@@ -68,7 +74,7 @@ public class NSPlayer {
         this.offlinePlayer = Bukkit.getOfflinePlayer(player.getUniqueId());
         this.name = offlinePlayer.getName();
         this.uuid = offlinePlayer.getUniqueId();
-        this.id = getIDFile().getString(getUUIDasString());
+        this.id = getIDFile().getString("players." + getUUIDasString());
         this.beta = getPlayers().getBoolean(getID() + ".beta");
         this.staff = getPlayers().getBoolean(getID() + ".staff");
         this.trusted = getPlayers().getBoolean(getID() + ".trusted");
@@ -153,7 +159,7 @@ public class NSPlayer {
     }
 
     public boolean existsInDatabase() {
-        return getIDFile().isSet(getUUIDasString());
+        return getIDFile().isSet("players." + getUUIDasString());
     }
 
     public String getBanReason() {
@@ -170,7 +176,7 @@ public class NSPlayer {
         NSID nsid = new NSID(IDType.PLAYER);
         nsid.creation();
         this.id = nsid.getID();
-        getIDFile().set(getUUIDasString(), this.id);
+        getIDFile().set("players." + getUUIDasString(), this.id);
         setName();
         setTokens(20);
         setBalance(100);
@@ -227,6 +233,33 @@ public class NSPlayer {
 
     public String getGuild() {
         return guild;
+    }
+
+    public Location getHome(World world) {
+        int x = getPlayers().getInt(getID() + ".home." + world.getName() + ".x"),
+                y = getPlayers().getInt(getID() + ".home." + world.getName() + ".y"),
+                z = getPlayers().getInt(getID() + ".home." + world.getName() + ".z");
+        float yaw = getPlayers().getInt(getID() + ".home." + world.getName() + ".yaw"),
+                pitch = getPlayers().getInt(getID() + ".home." + world.getName() + ".pitch");
+        Location location = new Location(world, getCenterOfBlock(x), getCenterOfBlock(y), getCenterOfBlock(z), yaw, pitch);
+        return location;
+    }
+
+    public void setHome(World world, Location location) {
+        getPlayers().set(getID() + ".home." + world.getName() + ".x", location.getBlockX());
+        getPlayers().set(getID() + ".home." + world.getName() + ".y", location.getBlockY());
+        getPlayers().set(getID() + ".home." + world.getName() + ".z", location.getBlockZ());
+        getPlayers().set(getID() + ".home." + world.getName() + ".yaw", location.getYaw());
+        getPlayers().set(getID() + ".home." + world.getName() + ".pitch", location.getPitch());
+        savePlayers();
+    }
+
+    public boolean hasHome(World world) {
+        return getPlayers().isSet(getID() + ".home." + world.getName());
+    }
+
+    public void removeHome(World world) {
+        getPlayers().set(getID() + ".home." + world.getName(), null);
     }
 
     //CONFIGS

@@ -20,5 +20,5 @@ public interface Inventories extends Default {
 
     InventoryHolder getHolder();
 
-    void create(Inventory inventory);
+    void create();
 }

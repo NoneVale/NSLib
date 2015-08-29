@@ -11,7 +11,7 @@ public interface Kit extends Default {
 
     String getName();
 
-    Material getDisplayItem();
+    ItemStack getDisplayItem();
 
     ItemStack[] getItems();
 

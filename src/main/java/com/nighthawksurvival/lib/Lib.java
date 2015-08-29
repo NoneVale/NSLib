@@ -30,6 +30,8 @@ public class Lib extends JavaPlugin {
     private static FileConfiguration ic;
     private static File g;
     private static FileConfiguration gc;
+    private static File l;
+    private static FileConfiguration lc;
 
     public void onEnable() {
         Plugins thisss = Plugins.LIB;
@@ -41,6 +43,7 @@ public class Lib extends JavaPlugin {
         setGuildConfig();
         setPlayersConfig();
         setIDFile();
+        setLocationsFile();
         GameSettings.loadSettings();
     }
 
@@ -167,5 +170,29 @@ public class Lib extends JavaPlugin {
         return null;
     }
 
+    public static void setLocationsFile() {
+        try {
+            File folder = new File("plugins/NighthawkSurvival");
+            folder.mkdirs();
+            l = new File(folder.getPath() + "/guilds.yml");
+            if (!l.exists()) {
+                l.createNewFile();
+            }
+
+            lc = YamlConfiguration.loadConfiguration(l);
+        }
+        catch (Exception e) {}
+    }
+
+    public static void saveLocationsFile() {
+        try {
+            lc.save(l);
+        }
+        catch (Exception e) {}
+    }
+
+    public static FileConfiguration getLocationsFile() {
+        return lc;
+    }
 
 }
